@@ -12,11 +12,11 @@
 
 $b_settings = get_option('fp_theme_all_settings')['basic_settings'] ?? [];
 
-$t_logo = $b_settings['logo'];
-$t_favicon = $b_settings['favicon'];
+$t_logo = isset($b_settings['logo']) ? $b_settings['logo'] : 'https://dummyimage.com/200x60/000/fff';
+$t_favicon = isset($b_settings['favicon']) ? $b_settings['favicon'] : 'https://dummyimage.com/32x32/000/fff';
 $t_max_width = ($b_settings['max_width'] ?? '1200') . 'px';
-$t_show_social = $b_settings['show_social'];
-$t_social_base_icon = $b_settings['social_base_icon'];
+$t_show_social = isset($b_settings['show_social']) ? $b_settings['show_social'] : 'false';
+$t_social_base_icon = isset($b_settings['social_base_icon']) ? $b_settings['social_base_icon'] : 'bi bi-emoji-sunglasses-fill';
 $t_social_items = [];
 if ($t_show_social) $t_social_items = $b_settings['social_list'] ?? [];
 
