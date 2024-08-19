@@ -1,0 +1,88 @@
+#wpcontent {
+  background-color: black;
+  flex: 1;
+  padding: 0.5rem;
+  font-family: "Roboto", sans-serif;
+  /* height: auto; */
+}
+
+#wpbody-content{
+  padding-bottom: 0;
+}
+
+#wpfooter {
+    color: #fff;
+    display: none;
+}
+
+#fp_menu_items .active {
+    background-color: rgb(31 41 55);
+    color: #fff;
+}
+
+.wrapper h1,
+.wrapper h2,
+.wrapper h3,
+.wrapper p,
+.wrapper span,
+.wrapper a{
+  color: inherit;
+  font-family: "Nunito", "Roboto", sans-serif;
+}
+
+#fp_menu_items a {
+    text-wrap: nowrap;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#homepage-builder select, #homepage-builder input {
+    max-width: 400px;
+
+}
+
+#homepage-items .sortable-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+}
+
+
+
+#homepage-items li {
+	flex: 1;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: start;
+	align-items: start;
+	gap: 1rem;
+	margin: 0px;
+	flex-direction: column;
+}
+
+
+.bi-arrows-move {
+  padding: 0 1rem;
+  cursor: move;
+}
+
+#single-shortcode-list{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: start;
+  align-items: start;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.remove-btn-base {
+  font-family: 600;
+  color: #fff;
+  background-color: rgb(220 38 38);
+  padding: 0.5rem 0.75rem;
+  margin-top: 0.5rem;
+}
