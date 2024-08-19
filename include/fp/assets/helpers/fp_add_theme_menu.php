@@ -199,8 +199,8 @@ function fp_theme_options_page()
                         <div class="key-themeOptions">Social List</div>
                         <div class="value flex justify-start items-center gap-3 bg-gray-700 p-1 flex-1">
                             <div class="flex-1">
-                                <?php if (!empty($basic_settings['social_list'])) : ?>
-                                    <div id="single-social-container-wrapper" class="flex flex-wrap gap-3 bg-gray-700 px-2 py-1">
+                                <div id="single-social-container-wrapper" class="flex flex-wrap gap-3 bg-gray-700 px-2 py-1">
+                                    <?php if (!empty($basic_settings['social_list'])) : ?>
                                         <?php foreach ($basic_settings['social_list'] as $social) : ?>
                                             <div class="single-social-item flex flex-col justify-between items-center bg-gray-900 p-2 gap-4 flex-1">
                                                 <div class="single-social-container relative flex flex-col gap-3 justify-center items-start p-2 self-start">
@@ -232,8 +232,8 @@ function fp_theme_options_page()
                                             </div>
 
                                         <?php endforeach; ?>
-                                    </div>
-                                <?php endif; ?>
+                                    <?php endif; ?>
+                                </div>
                                 <!-- ADD NEW DIV -->
                                 <div id="add-new-social-wrapper" class="flex justify-center items-center">
                                     <div id="add-new-social" class="min-w-30 max-w-30 px-3 py-2 text-center font-semibold rounded bg-gray-900 hover:cursor-pointer">
