@@ -19,6 +19,13 @@ if (!function_exists('fp_log')) {
         if (!file_exists(dirname(FP_T_LOG_FILE))) mkdir(dirname(FP_T_LOG_FILE), 0777, true);
         $logMessage = date('Y-m-d H:i:s') . " - [$context] - $message\n";
         file_put_contents(FP_T_LOG_FILE, $logMessage, FILE_APPEND);
+
+
+        $lines = file(FP_T_LOG_FILE);
+        if (count($lines) > 500) {
+            $lines = array_slice($lines, -500);
+            file_put_contents(FP_T_LOG_FILE, implode('', $lines));
+        }
     }
 }
 
@@ -29,6 +36,15 @@ if (!function_exists('fp_t_ajax_log_error')) {
             fp_log($_POST['logMessage'], $_POST['logContext']);
         }
         wp_die();
+    }
+}
+
+if (!function_exists('fp_notice')) {
+    function fp_notice($type = '', $message = '')
+    {
+        if (empty($type) || empty($message)) return;
+
+        set_transient('fp_t_admin_notice', array($type, $message), 30);
     }
 }
 

@@ -86,3 +86,11 @@
   padding: 0.5rem 0.75rem;
   margin-top: 0.5rem;
 }
+
+.i_content{
+  max-width: 500px;
+  max-height: 300px;
+  overflow: auto;
+  text-wrap: wrap;
+  white-space: pre-wrap;
+}

@@ -84,7 +84,7 @@ wp_enqueue_style('fp-adv-search', FP_T_ASSETS_URI . 'css/adv_search.css', array(
 
 
 
-        <div class="adv-search-input-bar bg-gray-800 rounded-lg flex justify-center items-center w-full border-[1px] border-gray-900 p-1 m-2">
+        <div class="adv-search-input-bar bg-gray-800 flex justify-center items-center w-full p-1 mx-2 mt-2">
             <i class="bi bi-search px-3"></i>
             <input id="adv-search-input" type="text" placeholder="Search" class="bg-transparent text-white px-3 py-2 outline-none focus:ring-0 w-full" value="<?php echo $search_query; ?>" autofocus>
             <div id="adv-search-btn" class="
@@ -111,11 +111,11 @@ wp_enqueue_style('fp-adv-search', FP_T_ASSETS_URI . 'css/adv_search.css', array(
 
         </div>
 
-        <div id="filterOptions" class="px-1 py-2">
+        <div id="filterOptions" class="px-1 py-2 bg-gray-800 w-full flex-1 mt-0 rounded-b-lg">
             <?php foreach ($options as $key => $values) : ?>
                 <!-- if sort_by then skip -->
                 <?php if ($key === 'sort_by' || $key === 'category') continue; ?>
-                <div class="custom-multiselect bg-gray-800 rounded-lg md:mx-2 max-w-[100px] min-w-[100px] md:w-[130px] max-md:w-[130px]">
+                <div class="custom-multiselect bg-gray-900 rounded-lg md:mx-2 max-w-[100px] min-w-[100px] md:w-[130px] max-md:w-[130px]">
                     <div class="select-box" style="background: <?php echo esc_attr($filter['background']); ?>; color: white; padding: 0.5rem; border-radius: 0.3rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
                         <span style="font-weight: 600;" data-tagid="<?php echo esc_attr($key); ?>">
                             <?php
@@ -124,7 +124,7 @@ wp_enqueue_style('fp-adv-search', FP_T_ASSETS_URI . 'css/adv_search.css', array(
                             ?></span>
                         <span><i class="bi bi-caret-down-fill"></i></span>
                     </div>
-                    <div class="options-list bg-gray-800 min-w-[100px] w-auto" style="
+                    <div class="options-list min-w-[100px] w-auto" style="
                             display: none; 
                             position: absolute; 
                             background: <?php echo esc_attr($filter['filter_sub_menu_background']); ?>; 
@@ -143,12 +143,12 @@ wp_enqueue_style('fp-adv-search', FP_T_ASSETS_URI . 'css/adv_search.css', array(
             <?php endforeach; ?>
 
             <!-- category -->
-            <div class="custom-multiselect bg-gray-800 rounded-lg md:mx-2 max-w-[100px] min-w-[100px] md:w-[130px] max-md:w-[130px]">
+            <div class="custom-multiselect bg-gray-900 rounded-lg md:mx-2 max-w-[100px] min-w-[100px] md:w-[130px] max-md:w-[130px]">
                 <div class="select-box" style="background: <?php echo esc_attr($filter['background']); ?>; color: white; padding: 0.5rem; border-radius: 0.3rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
                     <span style="font-weight: 600;" data-tagid="category">Category</span>
                     <span><i class="bi bi-caret-down-fill"></i></span>
                 </div>
-                <div class="options-list bg-gray-800 min-w-[100px] w-auto" style="
+                <div class="options-list min-w-[100px] w-auto" style="
                         display: none; 
                         position: absolute; 
                         /* background: <?php echo esc_attr($filter['filter_sub_menu_background']); ?>;  */
@@ -165,12 +165,12 @@ wp_enqueue_style('fp-adv-search', FP_T_ASSETS_URI . 'css/adv_search.css', array(
                 </div>
             </div>
 
-            <div class="custom-multiselect bg-gray-800 rounded-lg md:mx-2 max-w-[100px] min-w-[100px] md:w-[130px] max-md:w-[130px]">
+            <div class="custom-multiselect bg-gray-900 rounded-lg md:mx-2 max-w-[100px] min-w-[100px] md:w-[130px] max-md:w-[130px]">
                 <div class="select-box" style="background: <?php echo esc_attr($filter['background']); ?>; color: white; padding: 0.5rem; border-radius: 0.3rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
                     <span style="font-weight: 600;" data-tagid="sort_by">Sort By</span>
                     <span><i class="bi bi-caret-down-fill"></i></span>
                 </div>
-                <div class="options-list bg-gray-800 min-w-[100px] w-auto" style="
+                <div class="options-list min-w-[100px] w-auto" style="
                         display: none; 
                         position: absolute; 
                         background: <?php echo esc_attr($filter['filter_sub_menu_background']); ?>; 

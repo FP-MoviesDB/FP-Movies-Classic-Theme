@@ -69,7 +69,8 @@ function fp_theme_options_page()
             'homepage_layout' => [],
             'single_layout' => [],
         ],
-        'other_settings' => [],
+        'other_settings' => [
+        ],
     ];
 
     $current_settings = wp_parse_args($current_settings, $default_settings);
@@ -182,7 +183,7 @@ function fp_theme_options_page()
 
 
                     <div id="show-social-base-wrapper" class="hidden flex-col md:flex-row p-2 gap-3">
-                        <div class="key-themeOptions">Social Base Icon</div>
+                        <div class="key-themeOptions">Social Base Icon <a href="https://icons.getbootstrap.com/" target="_blank" class="text-base mx-2" style="color: #01fef3;">?</a></div>
                         <div class="value flex flex-col justify-center items-start gap-3 bg-gray-700 p-3 flex-1">
                             <input
                                 id="social-text-icon"
@@ -248,7 +249,7 @@ function fp_theme_options_page()
                     <div id="footer-text-wrapper" class="flex flex-col md:flex-row p-2 gap-3">
                         <div class="key-themeOptions">Footer Text</div>
                         <div class="value flex flex-col gap-3 bg-gray-700 p-3 flex-1">
-                            <textarea id="footer-text" class="min-w-0 flex-1 p-2 text-gray-900" rows="5" placeholder="&copy; 2024 | All rights reserved."><?php echo htmlspecialchars($decoded_footer_text, ENT_QUOTES, 'UTF-8'); ?></textarea>
+                            <textarea id="footer-text" class="min-w-0 flex-1 p-2 text-gray-900" rows="5" placeholder="&copy; 2024 | All rights reserved."><?php echo $decoded_footer_text; ?></textarea>
                             <p class="text-sm text-gray-400">You can use HTML tags</p>
                         </div>
                     </div>
@@ -283,6 +284,9 @@ function fp_theme_options_page()
                             <div id="hp-taxonomy-section" class="flex-row gap-3 hidden">
                                 <label for="hp-taxonomy" class="min-w-[150px]">Taxonomy</label>
                                 <select id="hp-taxonomy" class="flex-1">
+                                    <option value="mtg_cast">Cast</option>
+                                    <option value="mtg_crew">Crew</option>
+                                    <option value="mtg_collection">Collection</option>
                                     <option value="mtg_network">Network</option>
                                     <option value="mtg_quality">Quality</option>
                                     <option value="mtg_resolution">Resolution</option>
@@ -340,7 +344,7 @@ function fp_theme_options_page()
 
                             <div class="flex flex-row gap-3">
                                 <label for="hp-image-source" class="min-w-[150px]">Image Source</label>
-                                <select id="hp-image-source" class="flex-1">
+                                <select id="hp-image-source" class="flex-1 min-w-0">
                                     <option value="local">Local</option>
                                     <option value="tmdb">TMDB [Saves Bandwidth]</option>
                                 </select>
@@ -405,7 +409,9 @@ function fp_theme_options_page()
                                 <label for="universal-content-type" class="min-w-[150px]">Content Type</label>
                                 <select id="universal-content-type" class="flex-1">
                                     <option value="text">Text</option>
-                                    <option value="html">HTML</option>
+                                    <option value="html">HTML/Scripts</option>
+                                    <option value="php">PHP</option>
+                                    <option value="shortcode">Shortcode</option>
                                 </select>
                             </div>
 
@@ -445,12 +451,10 @@ function fp_theme_options_page()
                                         <div class="i_shortcode"><span class="inline-block min-w-24 me-1 font-semibold">Shortcode: </span><?php echo esc_html($item['shortcode']); ?></div>
                                         <?php if ($item['shortcode'] === 'fp-universal-view') : ?>
                                             <div class="i_content_type"><span class="inline-block min-w-24 me-1 font-semibold">Type: </span><?php echo $item['content_type']; ?></div>
-                                            <div class="i_content"><span class="inline-block min-w-24 me-1 font-semibold">Content: </span>
-                                                <?php
+                                            <div class="i_content"><span class="inline-block min-w-24 me-1 font-semibold">Content: </span><?php
                                                 $decoded_content = base64_decode($item['content']);
-                                                echo htmlspecialchars($decoded_content, ENT_QUOTES, 'UTF-8');
-                                                ?>
-                                            </div>
+                                                echo $decoded_content;
+                                                ?></div>
                                         <?php endif; ?>
                                     </li>
                                     <button class="remove-item remove-btn-base">Remove</button>
@@ -472,8 +476,13 @@ function fp_theme_options_page()
                 // └───────────────────┘
                 -->
                 <div id="fp-other-settings" class="hidden flex-col">
-                    <h2 class="text-center text-xl py-5 md:py-3">Other</h2>
+                    <h2 class="text-center text-xl py-5 md:py-3">Other Settings</h2>
+
+                    <!-- Dev Tools Protection -->
                 </div>
+
+
+
             </div>
 
         <?php

@@ -49,7 +49,7 @@ if (empty($t_social_base_icon)) $t_social_base_icon = 'bi bi-emoji-sunglasses-fi
     <?php wp_head(); ?>
 </head>
 
-<body <?php body_class(''); ?> style="max-width: <?php echo $t_max_width; ?>; margin: 0 auto;">
+<body <?php body_class(); ?> style="max-width: <?php echo $t_max_width; ?>; margin: 0 auto;">
     <div id="fp-main-container" class="text-white relative">
         <?php wp_body_open(); ?>
         <header id="fp-site-header" class="">

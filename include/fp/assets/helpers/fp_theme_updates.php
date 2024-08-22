@@ -17,15 +17,40 @@ function fp_movies_classic_theme_update_check($checked_data)
     global $wp_version;
 
     // Theme information
-    $theme_data = wp_get_theme('FP Movies Classic Theme');
-    $theme_version = $theme_data->get('Version');
+    
+    $theme_data = wp_get_themes();
+    $theme_version = '';
+    $stylesheet = '';
+
+    // track TIme
+    // $time = microtime(true);
+    // fp_log("Starting Time: " . $time);
+    foreach ($theme_data as $theme) {
+        if ($theme->get('Name') === 'FP Movies Classic Theme' || $theme->get('TextDomain') === 'fp-movies-classic-theme') {
+            // fp_log("Theme Found");
+            // fp_log("Name: " . $theme->get('Name'));
+            // fp_log("TextDomain: " . $theme->get('TextDomain'));
+            $theme_version = $theme->get('Version');
+            $stylesheet = $theme->get_stylesheet();
+            break;
+        }
+    }
+
+    // END track Time
+    // $duration = microtime(true) - $time;
+    // fp_log("Time: " . $duration);
+
+    if (empty($theme_version) || empty($stylesheet)) {
+        return $checked_data;
+    }
 
     // Update details
-    $update_url = 'https://fp-classic-theme.fpmoviesdb.xyz/';
+    $siteURL = get_site_url();
+    $update_url = 'https://fp-classic-theme.fpmoviesdb.xyz/?referer=' . $siteURL;
     $changelog_url = 'https://fp-classic-theme.fpmoviesdb.xyz/changelog.html';
 
     // Only check for update for our theme
-    if (isset($checked_data->checked['fp-movies-classic-theme'])) {
+    if (isset($checked_data->checked[$stylesheet])) {
         $request = wp_remote_post($update_url, array(
             'body' => array(
                 'action' => 'theme_update',

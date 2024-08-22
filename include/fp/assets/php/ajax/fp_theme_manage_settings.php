@@ -23,6 +23,8 @@ function fp_ajax_manage_theme_settings() {
 
         $tSettings['basic_settings']['footer_text'] = wp_kses_post(stripslashes($tSettings['basic_settings']['footer_text']));
 
+        // fp_log("Settings: " . print_r($tSettings, true));
+
         update_option('fp_theme_all_settings', $tSettings);
 
         set_transient('fp_t_admin_notice', ['success', 'Settings saved successfully'], 30);

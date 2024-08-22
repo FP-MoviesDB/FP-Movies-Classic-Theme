@@ -63,6 +63,7 @@ function theme_setup()
     add_theme_support('title-tag');
     add_image_size('fp_tp', 250, 375, true);
     add_image_size('fp_tp_medium', 500, 750, true);
+    if (is_admin()) if (!(isPluginActive())) fp_notice('error', 'FP MoviesDB Plugin is not active. Please activate the plugin to use this theme. If Activated then please refresh the Page.');
 }
 
 function admin_init_calls()
@@ -75,6 +76,11 @@ function admin_init_calls()
 
 // Includes
 include_once(FP_T_PATH . '/include/fp/assets/helpers/fp_global_logs.php');
+
+if (is_admin()) {
+    include_once(FP_T_PATH . '/include/fp/assets/helpers/fp_theme_updates.php');
+    include_once(FP_T_PATH . '/include/fp/assets/helpers/fp_get_plugin_status.php');
+}
 
 include_once(FP_T_PATH . '/include/fp/assets/helpers/fp_admin_notices.php');
 include_once(FP_T_PATH . '/include/fp/assets/helpers/fp_menu_options.php');
@@ -91,9 +97,7 @@ include_once(FP_T_PATH . '/include/fp/assets/helpers/fp_set_visitor_identity.php
 include_once(FP_T_PATH . '/include/fp/assets/php/enqueue.php');
 
 
-if (is_admin()) {
-    include_once(FP_T_PATH . '/include/fp/assets/helpers/fp_theme_updates.php');
-}
+
 
 
 
@@ -108,6 +112,7 @@ add_action('init', 'fp_init_calls');
 add_action('admin_init', 'admin_init_calls');
 
 add_action('wp_enqueue_scripts', 'fp_t_enqueue');
+add_action('wp_footer', 'add_customizer_css_last', 100);
 
 // ENQUEUE SCRIPTS EVERYWHERE [ADMIN LOGIN + DASHBOARD / FRONTEND]
 add_action('wp_enqueue_scripts', 'fp_admin_enqueue_everywhere');

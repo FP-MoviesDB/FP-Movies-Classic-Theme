@@ -68,7 +68,8 @@ jQuery(document).ready(function ($) {
   function gatherBasicSettings() {
     let footer_text_val = $("#footer-text").val().trim();
     // console.log("ORIGINAL FOOTER TEXT: ", footer_text_val);
-    footer_text_val = btoa(footer_text_val);
+    // footer_text_val = btoa(footer_text_val);
+    footer_text_val = utf8ToBase64(footer_text_val);
     let settings = {
       logo: $("#logo-url-relative-path").val(),
       favicon: $("#favicon-url-relative-path").val(),
@@ -201,7 +202,8 @@ jQuery(document).ready(function ($) {
   $("#save-theme-settings").on("click", function () {
     let settings = gatherAllSettings();
 
-    // console.log(settings);
+    // Disable the button to prevent multiple clicks
+    $(this).prop("disabled", true);
 
     $.ajax({
       url: ajaxurl, // WordPress AJAX URL
@@ -217,9 +219,13 @@ jQuery(document).ready(function ($) {
         } else {
           alert("There was an error saving the settings.");
         }
+        // Re-enable the button
+        $("#save-theme-settings").prop("disabled", false);
       },
       error: function () {
         alert("AJAX request failed.");
+        // Re-enable the button
+        $("#save-theme-settings").prop("disabled", false);
       },
     });
   });
@@ -451,7 +457,7 @@ jQuery(document).ready(function ($) {
       var u_content = $("#universal-content").val();
       var u_content_type = $("#universal-content-type").val();
 
-      // console.log(u_content_type + " : " + u_content);
+      console.log(u_content_type + " : " + u_content);
 
       //   alert(content_type + " : " + content);
 
@@ -515,19 +521,28 @@ jQuery(document).ready(function ($) {
     return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
   }
 
+  function utf8ToBase64(str) {
+    // Encode the string as an array of bytes (UTF-8), then to Base64
+    const utf8Bytes = new TextEncoder().encode(str);
+    const base64String = btoa(String.fromCharCode.apply(null, utf8Bytes));
+    return base64String;
+  }
+
   function gatherSinglePageData() {
     let singlePageData = [];
     $("#singlepage-items li").each(function () {
       let shortcode = $(this).find(".i_shortcode").text().replace("Shortcode: ", "");
       let item = {
         shortcode: shortcode,
-        // content: $(this).find(".i_content").text(),
       };
 
       if (shortcode === "fp-universal-view") {
         item.content_type = $(this).find(".i_content_type").text().replace("Type: ", "");
-        let e_base64 = $(this).find(".i_content").text().replace("Content: ", "");
-        e_base64 = btoa(e_base64);
+        // let e_base64 = $(this).find(".i_content").text().replace("Content: ", "");
+        let e_base64 = $(this).find(".i_content").html().replace(`<span class="inline-block min-w-24 me-1 font-semibold">Content: </span>`, "");
+        e_base64 = e_base64.replace(/<img[^>]*alt="([^"]*)"[^>]*>/g, "$1");
+        console.log("ENCODED: ", e_base64);
+        e_base64 = utf8ToBase64(e_base64);
         item.content = e_base64;
       }
 
@@ -535,5 +550,9 @@ jQuery(document).ready(function ($) {
     });
 
     return singlePageData;
+  }
+
+
+  function gatherOtherSettings() {
   }
 });

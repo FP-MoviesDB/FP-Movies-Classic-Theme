@@ -51,3 +51,12 @@ if (!function_exists('fp_show_transient_notice')) {
         }
     }
 }
+
+if (!function_exists('fp_notice')) {
+    function fp_notice($type = '', $message = '')
+    {
+        if (empty($type) || empty($message)) return;
+
+        set_transient('fp_t_admin_notice', array($type, $message), 30);
+    }
+}

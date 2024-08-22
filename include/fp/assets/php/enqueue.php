@@ -9,6 +9,7 @@ function fp_t_enqueue()
     wp_enqueue_style('fp-t_tw-style', FP_T_URI . '/include/fp/assets/css/global.css', array(), FP_T_VERSION, 'all');
     wp_enqueue_style('fp-t_global-style', FP_T_URI . '/include/fp/assets/css/base.css', array(), FP_T_VERSION, 'all');
     wp_enqueue_script('gp-t_global-script', FP_T_URI . '/include/fp/assets/js/global.js', array('jquery'), FP_T_VERSION, true);
+    wp_enqueue_script('gp-t_global-cls-bck', FP_T_URI . '/include/fp/assets/js/global.js', array(), FP_T_VERSION, true);
     $local_data = [
         'ajaxurl' => FP_T_AJAX_URL,
         'home_url' => FP_T_HOME_URL,
@@ -28,3 +29,14 @@ function fp_admin_enqueue_everywhere()
         wp_enqueue_script('fp_theme_admin_js', FP_T_URI . '/include/fp/assets/js/admin_enqueue.js', array('jquery'), FP_T_VERSION, true);
     }
 }
+
+
+function add_customizer_css_last() {
+    // Get the Customizer's Additional CSS
+    $custom_css = wp_get_custom_css();
+
+    if (!empty($custom_css)) {
+        echo '<style type="text/css">' . $custom_css . '</style>';
+    }
+}
+
