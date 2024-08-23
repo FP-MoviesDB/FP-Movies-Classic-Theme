@@ -62,8 +62,8 @@ function fp_movies_classic_theme_update_check($checked_data)
         if (!is_wp_error($request) || wp_remote_retrieve_response_code($request) === 200) {
             $response = json_decode(wp_remote_retrieve_body($request), true);
 
-            if (version_compare($theme_version, $response['new_version'], '<')) {
-                $checked_data->response['fp-movies-classic-theme'] = array(
+            if (!empty($response['new_version']) && version_compare($theme_version, $response['new_version'], '<')) {
+                $checked_data->response[$stylesheet] = array(
                     'new_version' => $response['new_version'],
                     'package' => $response['package'],
                     'url' => $changelog_url,

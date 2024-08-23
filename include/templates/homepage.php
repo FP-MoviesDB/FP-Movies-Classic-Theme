@@ -59,7 +59,7 @@ if (!empty($homepage_settings) && is_array($homepage_settings)) {
     $fallback = [
         "[fp-homepage-view type='featured' content_type='movie' title_background='gradient' image_source='local']",
         "[fp-homepage-view type='meta' content_type='movie' heading='Movies']",
-        "[fp-homepage-view type='meta' content_type='series' heading='Movies']",
+        "[fp-homepage-view type='meta' content_type='series' heading='All Series']",
         "[fp-homepage-view type='featured' content_type='series' title_background='gradient' image_source='local']",
     ];
 

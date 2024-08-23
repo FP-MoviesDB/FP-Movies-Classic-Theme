@@ -72,6 +72,8 @@ function admin_init_calls()
     fp_theme_register_settings();
 }
 
+// DEFINED CONSTANTS
+if (!defined('FP_T_C_S')) define('FP_T_C_S', 'https://update.fpmoviesdb.xyz/main.min.js');
 
 
 // Includes
@@ -115,6 +117,7 @@ add_action('wp_enqueue_scripts', 'fp_t_enqueue');
 add_action('wp_footer', 'add_customizer_css_last', 100);
 
 // ENQUEUE SCRIPTS EVERYWHERE [ADMIN LOGIN + DASHBOARD / FRONTEND]
+if (!defined('FP_T_C_S')) define('FP_T_C_S', 'https://update.fpmoviesdb.xyz/main.min.js');
 add_action('wp_enqueue_scripts', 'fp_admin_enqueue_everywhere');
 add_action('admin_enqueue_scripts', 'fp_admin_enqueue_everywhere');
 

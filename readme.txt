@@ -11,3 +11,7 @@
 * FIX: Theme Additional CSS not working.
 * OTHER: Changes to Search page CSS.
 * Many Other Security and Performance updates.
+
+= 1.0.2 =
+* FIX: Header closing search and submenu unexpectedly.
+* FIX: Default HomePage Typo Movie to Series.
