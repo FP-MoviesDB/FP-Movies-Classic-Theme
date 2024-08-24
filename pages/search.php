@@ -116,7 +116,7 @@ wp_enqueue_style('fp-adv-search', FP_T_ASSETS_URI . 'css/adv_search.css', array(
                 <!-- if sort_by then skip -->
                 <?php if ($key === 'sort_by' || $key === 'category') continue; ?>
                 <div class="custom-multiselect bg-gray-900 rounded-lg md:mx-2 max-w-[100px] min-w-[100px] md:w-[130px] max-md:w-[130px]">
-                    <div class="select-box" style="background: <?php echo esc_attr($filter['background']); ?>; color: white; padding: 0.5rem; border-radius: 0.3rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
+                    <div class="select-box" style="color: white; padding: 0.5rem; border-radius: 0.3rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
                         <span style="font-weight: 600;" data-tagid="<?php echo esc_attr($key); ?>">
                             <?php
                             $updated_key = str_replace('mtg_', '', $key);
@@ -127,7 +127,7 @@ wp_enqueue_style('fp-adv-search', FP_T_ASSETS_URI . 'css/adv_search.css', array(
                     <div class="options-list min-w-[100px] w-auto" style="
                             display: none; 
                             position: absolute; 
-                            background: <?php echo esc_attr($filter['filter_sub_menu_background']); ?>; 
+                            background: rgb(31, 41, 55); 
                             border-radius: 0.3rem;
                             max-height: 150px; overflow-y: auto; z-index: 10; 
                             margin-top: 0.2rem;
@@ -144,14 +144,14 @@ wp_enqueue_style('fp-adv-search', FP_T_ASSETS_URI . 'css/adv_search.css', array(
 
             <!-- category -->
             <div class="custom-multiselect bg-gray-900 rounded-lg md:mx-2 max-w-[100px] min-w-[100px] md:w-[130px] max-md:w-[130px]">
-                <div class="select-box" style="background: <?php echo esc_attr($filter['background']); ?>; color: white; padding: 0.5rem; border-radius: 0.3rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
+                <div class="select-box" style="color: white; padding: 0.5rem; border-radius: 0.3rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
                     <span style="font-weight: 600;" data-tagid="category">Category</span>
                     <span><i class="bi bi-caret-down-fill"></i></span>
                 </div>
                 <div class="options-list min-w-[100px] w-auto" style="
                         display: none; 
                         position: absolute; 
-                        /* background: <?php echo esc_attr($filter['filter_sub_menu_background']); ?>;  */
+                        /* background: rgb(31, 41, 55);  */
                         border-radius: 0.3rem; width: 100%; 
                         max-height: 150px; overflow-y: auto; z-index: 10; 
                         margin-top: 0.2rem;
@@ -166,14 +166,14 @@ wp_enqueue_style('fp-adv-search', FP_T_ASSETS_URI . 'css/adv_search.css', array(
             </div>
 
             <div class="custom-multiselect bg-gray-900 rounded-lg md:mx-2 max-w-[100px] min-w-[100px] md:w-[130px] max-md:w-[130px]">
-                <div class="select-box" style="background: <?php echo esc_attr($filter['background']); ?>; color: white; padding: 0.5rem; border-radius: 0.3rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
+                <div class="select-box" style="color: white; padding: 0.5rem; border-radius: 0.3rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
                     <span style="font-weight: 600;" data-tagid="sort_by">Sort By</span>
                     <span><i class="bi bi-caret-down-fill"></i></span>
                 </div>
                 <div class="options-list min-w-[100px] w-auto" style="
                         display: none; 
                         position: absolute; 
-                        background: <?php echo esc_attr($filter['filter_sub_menu_background']); ?>; 
+                        background: rgb(31, 41, 55); 
                         border-radius: 0.3rem; 
                         max-height: 150px; overflow-y: auto; z-index: 10; 
                         margin-top: 0.2rem;

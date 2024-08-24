@@ -20,7 +20,7 @@ function fp_t_enqueue()
         'icon_film' => FP_T_IMG_URI . 'icon-film.png',
         'icon_calendar' => FP_T_IMG_URI . 'icon-calendar.png',
     ];
-    wp_localize_script('gp-t_global-script', 'fp_sData', $local_data);
+    wp_localize_script('fp-t_global-script', 'fp_sData', $local_data);
 }
 
 

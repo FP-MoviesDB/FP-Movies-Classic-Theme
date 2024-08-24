@@ -162,7 +162,7 @@ if (empty($t_social_base_icon)) $t_social_base_icon = 'bi bi-emoji-sunglasses-fi
                     <a href="<?php echo esc_url(home_url('/search')); ?>">
                         <i id="header-filter-icon" class="bi bi-filter hover:text-gray-400 cursor-pointer text-2xl"></i>
                     </a>
-                    <i class="bi bi-search px-3 hover:text-gray-400 cursor-pointer text-lg"></i>
+                    <i id="search-mobile-btn" class="bi bi-search px-3 hover:text-gray-400 cursor-pointer text-lg"></i>
                 </div>
                 <div id="m-search-result" class="w-full max-w-[95%] rounded-lg md:hidden left-0 bg-gray-800 text-white z-10 min-h-22 flex justify-center items-center flex-col">
                     <div class="flex justify-start items-start p-2 flex-col w-[95%]">

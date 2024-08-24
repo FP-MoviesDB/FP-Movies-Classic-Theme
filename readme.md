@@ -20,6 +20,7 @@
 ### 1.0.2
 - FIX: Header closing search and submenu unexpectedly.
 - FIX: Default HomePage Typo Movie to Series.
+- FIX: Mobile Search Button Click.
 
 &nbsp;
 
