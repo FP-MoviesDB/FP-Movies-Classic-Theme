@@ -88,11 +88,11 @@ function fp_perform_search_callback()
 
     fp_log('Search query: ' . $search_query);
 
-    try {
-        fp_log('Filters: ' . wp_json_encode($_POST['filters']));
-    } catch (Exception $e) {
-        fp_log('Filters: ' . $e->getMessage());
-    }
+    // try {
+    //     fp_log('Filters: ' . wp_json_encode($_POST['filters']));
+    // } catch (Exception $e) {
+    //     fp_log('Filters: ' . $e->getMessage());
+    // }
     // check if the filters is set of not
     if (isset($_POST['filters'])) {
         // fp_log('Filters: ' . wp_json_encode($_POST['filters']));

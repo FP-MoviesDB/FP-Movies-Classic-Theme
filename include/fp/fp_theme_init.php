@@ -107,8 +107,10 @@ include_once(FP_T_PATH . '/include/fp/assets/php/enqueue.php');
 // Hooks
 add_theme_support('menus');
 add_theme_support('widgets');
+add_theme_support('post-thumbnails');
 
 remove_theme_support('widgets-block-editor');
+remove_theme_support('core-block-patterns');
 
 add_action('init', 'fp_init_calls');
 add_action('admin_init', 'admin_init_calls');
@@ -130,8 +132,6 @@ add_action('after_setup_theme', 'theme_setup');
 
 
 add_action('admin_notices', 'fp_show_transient_notice');
-
-// add_action( 'save_post', 'changePostLastModifiedTime', 10, 2 );
 
 add_action('admin_bar_menu', 'fp_movie_t_admin_bar', 100, 1);
 add_action('admin_menu', 'fp_theme_options_menu');

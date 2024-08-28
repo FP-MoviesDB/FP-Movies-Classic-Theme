@@ -16,3 +16,9 @@
 * FIX: Header closing search and submenu unexpectedly.
 * FIX: Default HomePage Typo Movie to Series.
 * FIX: Mobile Search Button Click.
+
+= 1.0.3 =
+* Reduce Comment Area Padding.
+* Added Featured Image Option that was missing.
+* Added Support for Child Theme.
+* Set Post Modified as default sortBy in all posts.
