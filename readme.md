@@ -38,6 +38,10 @@
 - FIX: Adv Search Page: Background color and with for options.
 - FIX: Adv Search Page: Multiple requests on CLEAR FILTER events.
 
+### 1.0.5
+- FIX: Adv-Search huge Load, removed cast, crew and collection from adv-search page as it causing huge load due to large number.
+- IMPROVE: Improved search queries response time.
+
 &nbsp;
 
 ## Theme Screenshot:

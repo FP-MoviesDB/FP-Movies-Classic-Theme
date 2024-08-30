@@ -79,6 +79,10 @@ function fp_perform_search_callback()
     $cached_results = fp_t_get_cache($cache_key, '/search_queries');
     if ($cached_results) {
         fp_log('Cache hit, returning cached results');
+        if (!function_exists('fp_track_search_query')) {
+            require_once FP_T_ASSETS_PATH . '/helpers/fp_manage_trending_searches.php';
+        }
+        fp_track_search_query($search_query);
         wp_send_json_success($cached_results, 200);
         return;
     }
@@ -212,6 +216,13 @@ function fp_perform_search_callback()
 
     // Combine exact and partial results, with exact matches first
     $results = array_merge($exact_results, $partial_results);
+
+    if (!empty($results)) {
+        if (!function_exists('fp_track_search_query')) {
+            require_once FP_T_ASSETS_PATH . '/helpers/fp_manage_trending_searches.php';
+        }
+        fp_track_search_query($search_query);
+    }
 
     $max_num_pages = max($query_exact->max_num_pages, $query_partial->max_num_pages);
     $pagination = [

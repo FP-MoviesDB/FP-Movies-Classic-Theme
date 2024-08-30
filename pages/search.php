@@ -32,9 +32,9 @@ wp_enqueue_style('fp-adv-search', FP_T_ASSETS_URI . 'css/adv_search.css', array(
         'mtg_year'    => fp_get_option_values('mtg_year'),
         'mtg_network'    => fp_get_option_values('mtg_network'),
         'sort_by'    => fp_get_option_values('sort_by'),
-        'mtg_cast'    => fp_get_option_values('mtg_cast'),
-        'mtg_crew'    => fp_get_option_values('mtg_crew'),
-        'mtg_collection'    => fp_get_option_values('mtg_collection'),
+        // 'mtg_cast'    => fp_get_option_values('mtg_cast'),
+        // 'mtg_crew'    => fp_get_option_values('mtg_crew'),
+        // 'mtg_collection'    => fp_get_option_values('mtg_collection'),
     ];
 
     if (!function_exists('fp_get_trending_searches_main')) {
@@ -204,7 +204,7 @@ wp_enqueue_style('fp-adv-search', FP_T_ASSETS_URI . 'css/adv_search.css', array(
         </div>
         <div class="search-results-content px-5">
             <div class="search-adv-loader w-full"></div>
-            <div class="search-results-list flex flex-wrap gap-3 justify-center">
+            <div class="search-results-list flex flex-wrap gap-3 justify-center min-h-[500px] md:min-h-[710px]">
             </div>
         </div>
     </div>
