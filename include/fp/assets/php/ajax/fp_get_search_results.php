@@ -56,10 +56,9 @@ function fp_adv_sortBy($sort_by)
 
 function fp_perform_search_callback()
 {
-
     fp_log('Search request received');
 
-    // verify the nonce "fp_search_nonce"
+    // Verify the nonce "fp_search_nonce"
     if (!wp_verify_nonce($_POST['nonce'], 'fp_search_nonce')) {
         fp_log('Nonce verification failed');
         wp_send_json_error('Nonce verification failed', 401);
@@ -68,37 +67,56 @@ function fp_perform_search_callback()
 
     fp_log('Nonce verified');
 
-
     $search_query = sanitize_text_field($_POST['search']);
     $paged = isset($_POST['paged']) ? intval($_POST['paged']) : 1;
 
-    $args = [
+    include_once FP_T_ASSETS_PATH . '/helpers/fp_global_theme_cache.php';
+
+    $filters = $_POST['filters'] ?? [];
+    $filters_key = md5(json_encode($filters));
+    $cache_key = md5("{$search_query}_page_{$paged}_filters_{$filters_key}");
+    
+    $cached_results = fp_t_get_cache($cache_key, '/search_queries');
+    if ($cached_results) {
+        fp_log('Cache hit, returning cached results');
+        wp_send_json_success($cached_results, 200);
+        return;
+    }
+
+    // First, create the query to get exact matches
+    $args_exact = [
         'post_type'      => 'post',
         'posts_per_page' => 10,
         'paged'          => $paged,
         'meta_query'     => [
-            'relation' => 'OR',  // Ensure meta and tax queries are combined with OR
+            [
+                'key'     => 'mtg_tmdb_title',
+                'value'   => $search_query,
+                'compare' => '='
+            ]
+        ]
+    ];
+
+    // Then create the query for partial matches, excluding exact matches
+    $args_partial = [
+        'post_type'      => 'post',
+        'posts_per_page' => 10, // Will adjust after getting exact matches
+        'paged'          => $paged,
+        'meta_query'     => [
             [
                 'key'     => 'mtg_tmdb_title',
                 'value'   => $search_query,
                 'compare' => 'LIKE'
             ]
-        ]
+        ],
+        'post__not_in'   => [], // Placeholder for exclusion of exact matches
     ];
 
     fp_log('Search query: ' . $search_query);
 
-    // try {
-    //     fp_log('Filters: ' . wp_json_encode($_POST['filters']));
-    // } catch (Exception $e) {
-    //     fp_log('Filters: ' . $e->getMessage());
-    // }
-    // check if the filters is set of not
-    if (isset($_POST['filters'])) {
-        // fp_log('Filters: ' . wp_json_encode($_POST['filters']));
-        $filters = $_POST['filters'];
-
-        $args['tax_query'] = [
+    // Apply filters if set
+    if (!empty($filters)) {
+        $args_partial['tax_query'] = $args_exact['tax_query'] = [
             'relation' => 'AND'
         ];
 
@@ -109,47 +127,40 @@ function fp_perform_search_callback()
 
                     // Merge meta_query with existing ones
                     if (isset($sort_args['meta_query'])) {
-                        $args['meta_query'][] = $sort_args['meta_query'];
+                        $args_exact['meta_query'][] = $sort_args['meta_query'];
+                        $args_partial['meta_query'][] = $sort_args['meta_query'];
                         unset($sort_args['meta_query']);
                     }
 
                     // Merge remaining sort arguments
-                    $args = array_merge($args, $sort_args);
+                    $args_exact = array_merge($args_exact, $sort_args);
+                    $args_partial = array_merge($args_partial, $sort_args);
                     continue;
-
-                    // $args = array_merge($args, fp_adv_sortBy($terms));
-                    // continue;
                 }
-                $args['tax_query'][] = [
+                $tax_query = [
                     'taxonomy' => sanitize_key($taxonomy),
                     'field'    => 'slug',
                     'terms'    => array_map('sanitize_text_field', $terms),
                     'operator' => 'IN'
                 ];
+
+                $args_exact['tax_query'][] = $tax_query;
+                $args_partial['tax_query'][] = $tax_query;
             }
         }
     }
 
-    fp_log('Search args: ' . wp_json_encode($args));
+    // fp_log('Search args (exact): ' . wp_json_encode($args_exact));
 
+    // Execute exact match query
+    $query_exact = new WP_Query($args_exact);
+    $exact_results = [];
 
-
-    $query = new WP_Query($args);
-    $results = [];
-    $pagination = [];
-    if ($query->have_posts()) {
-        if (!empty($search_query)) {
-            if (!function_exists('fp_track_search_query')) {
-                require_once FP_T_ASSETS_PATH . '/helpers/fp_manage_trending_searches.php';
-            }
-            fp_track_search_query($search_query);
-        }
-        update_post_caches($query->posts, 'post', true, true);
-        while ($query->have_posts()) {
-            $query->the_post();
+    if ($query_exact->have_posts()) {
+        while ($query_exact->have_posts()) {
+            $query_exact->the_post();
             $post_id = get_the_ID();
-            // $fallback_sizes = ['fp_tp', 'thumbnail', 'medium', 'large', 'full'];
-            $results[] = [
+            $exact_results[] = [
                 'id' => $post_id,
                 'title' => get_the_title(),
                 'p_link' => get_the_permalink(),
@@ -158,31 +169,70 @@ function fp_perform_search_callback()
                 'vote' => get_post_meta($post_id, 'mtg_vote_average', true),
                 't_cover' => get_post_meta($post_id, 'mtg_backdrop_path', true),
                 't_img' => get_post_meta($post_id, 'mtg_poster_path', true),
-                // get post content as overview
                 't_overview' => get_the_content(),
                 'genres' => wp_get_post_terms($post_id, 'mtg_genre', ['fields' => 'names']),
                 'audio' => wp_get_post_terms($post_id, 'mtg_audio', ['fields' => 'names']),
-                // 'thumb' => get_the_post_thumbnail_url($post_id, 'fp_tp')
                 'thumb' => get_the_post_thumbnail_url($post_id, 'fp_tp')
-
-
             ];
         }
-        $max_num_pages = $query->max_num_pages;
-        $pagination = [
-            'current_page' => $paged,
-            'total_pages'  => $max_num_pages,
-            'has_prev_page' => $paged > 1,
-            'has_next_page' => $paged < $max_num_pages
-        ];
+
+        // Exclude exact matches from the partial match query
+        $args_partial['post__not_in'] = wp_list_pluck($exact_results, 'id');
     }
+
+    // Adjust the number of posts per page for the partial match query
+    $args_partial['posts_per_page'] = 10 - count($exact_results);
+
+    // fp_log('Search args (partial): ' . wp_json_encode($args_partial));
+
+    // Execute partial match query
+    $query_partial = new WP_Query($args_partial);
+    $partial_results = [];
+
+    if ($query_partial->have_posts()) {
+        while ($query_partial->have_posts()) {
+            $query_partial->the_post();
+            $post_id = get_the_ID();
+            $partial_results[] = [
+                'id' => $post_id,
+                'title' => get_the_title(),
+                'p_link' => get_the_permalink(),
+                'post_type' => get_post_meta($post_id, 'mtg_post_type', true),
+                'r_date' => get_post_meta($post_id, 'mtg_release_date', true),
+                'vote' => get_post_meta($post_id, 'mtg_vote_average', true),
+                't_cover' => get_post_meta($post_id, 'mtg_backdrop_path', true),
+                't_img' => get_post_meta($post_id, 'mtg_poster_path', true),
+                't_overview' => get_the_content(),
+                'genres' => wp_get_post_terms($post_id, 'mtg_genre', ['fields' => 'names']),
+                'audio' => wp_get_post_terms($post_id, 'mtg_audio', ['fields' => 'names']),
+                'thumb' => get_the_post_thumbnail_url($post_id, 'fp_tp')
+            ];
+        }
+    }
+
+    // Combine exact and partial results, with exact matches first
+    $results = array_merge($exact_results, $partial_results);
+
+    $max_num_pages = max($query_exact->max_num_pages, $query_partial->max_num_pages);
+    $pagination = [
+        'current_page' => $paged,
+        'total_pages'  => $max_num_pages,
+        'has_prev_page' => $paged > 1,
+        'has_next_page' => $paged < $max_num_pages
+    ];
+
     wp_reset_postdata();
-    // fp_log('Search results: ' . wp_json_encode($results));
-    wp_send_json_success([
+    $cache_data = [
         'results' => $results,
         'pagination' => $pagination
-    ], 200);
+    ];
+
+    fp_t_set_cache($cache_key, $cache_data, FP_T_CK ['sq']['time'], '/search_queries');
+    fp_log('Served fresh results and cached them');
+
+    wp_send_json_success($cache_data, 200);
 }
+
 
 
 function get_thumbnail_with_fallback($post_id, $sizes = [])

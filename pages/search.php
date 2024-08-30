@@ -32,6 +32,9 @@ wp_enqueue_style('fp-adv-search', FP_T_ASSETS_URI . 'css/adv_search.css', array(
         'mtg_year'    => fp_get_option_values('mtg_year'),
         'mtg_network'    => fp_get_option_values('mtg_network'),
         'sort_by'    => fp_get_option_values('sort_by'),
+        'mtg_cast'    => fp_get_option_values('mtg_cast'),
+        'mtg_crew'    => fp_get_option_values('mtg_crew'),
+        'mtg_collection'    => fp_get_option_values('mtg_collection'),
     ];
 
     if (!function_exists('fp_get_trending_searches_main')) {
@@ -59,7 +62,7 @@ wp_enqueue_style('fp-adv-search', FP_T_ASSETS_URI . 'css/adv_search.css', array(
                 <span class="trending-searches-span">Top Searches:</span>
                 <?php
                 $ts_data = array_slice($ts_data, 0, 100);
-                fp_log('Type of $ts_data: ' . gettype($ts_data));
+                // fp_log('Type of $ts_data: ' . gettype($ts_data));
 
 
                 try {
@@ -115,7 +118,7 @@ wp_enqueue_style('fp-adv-search', FP_T_ASSETS_URI . 'css/adv_search.css', array(
             <?php foreach ($options as $key => $values) : ?>
                 <!-- if sort_by then skip -->
                 <?php if ($key === 'sort_by' || $key === 'category') continue; ?>
-                <div class="custom-multiselect bg-gray-900 rounded-lg md:mx-2 max-w-[100px] min-w-[100px] md:w-[130px] max-md:w-[130px]">
+                <div class="custom-multiselect bg-gray-900 rounded-lg md:mx-2 w-[150px] max-w-[150px]">
                     <div class="select-box" style="color: white; padding: 0.5rem; border-radius: 0.3rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
                         <span style="font-weight: 600;" data-tagid="<?php echo esc_attr($key); ?>">
                             <?php
@@ -124,12 +127,12 @@ wp_enqueue_style('fp-adv-search', FP_T_ASSETS_URI . 'css/adv_search.css', array(
                             ?></span>
                         <span><i class="bi bi-caret-down-fill"></i></span>
                     </div>
-                    <div class="options-list min-w-[100px] w-auto" style="
+                    <div class="options-list min-w-[150px] max-w-[150px] md:max-w-auto w-auto" style="
                             display: none; 
                             position: absolute; 
                             background: rgb(31, 41, 55); 
                             border-radius: 0.3rem;
-                            max-height: 150px; overflow-y: auto; z-index: 10; 
+                            max-height: 200px; overflow-y: auto; z-index: 10; 
                             margin-top: 0.2rem;
                             padding: 0.5rem; color: white;">
                         <?php foreach ($values as $value) : ?>
@@ -143,15 +146,15 @@ wp_enqueue_style('fp-adv-search', FP_T_ASSETS_URI . 'css/adv_search.css', array(
             <?php endforeach; ?>
 
             <!-- category -->
-            <div class="custom-multiselect bg-gray-900 rounded-lg md:mx-2 max-w-[100px] min-w-[100px] md:w-[130px] max-md:w-[130px]">
+            <div class="custom-multiselect bg-gray-900 rounded-lg md:mx-2 w-[150px] max-w-[150px]">
                 <div class="select-box" style="color: white; padding: 0.5rem; border-radius: 0.3rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
                     <span style="font-weight: 600;" data-tagid="category">Category</span>
                     <span><i class="bi bi-caret-down-fill"></i></span>
                 </div>
-                <div class="options-list min-w-[100px] w-auto" style="
+                <div class="options-list min-w-[150px] max-w-[150px] md:max-w-auto w-auto" style="
                         display: none; 
                         position: absolute; 
-                        /* background: rgb(31, 41, 55);  */
+                        background: rgb(31, 41, 55); 
                         border-radius: 0.3rem; width: 100%; 
                         max-height: 150px; overflow-y: auto; z-index: 10; 
                         margin-top: 0.2rem;
@@ -165,12 +168,12 @@ wp_enqueue_style('fp-adv-search', FP_T_ASSETS_URI . 'css/adv_search.css', array(
                 </div>
             </div>
 
-            <div class="custom-multiselect bg-gray-900 rounded-lg md:mx-2 max-w-[100px] min-w-[100px] md:w-[130px] max-md:w-[130px]">
+            <div class="custom-multiselect bg-gray-900 rounded-lg md:mx-2 w-[150px] max-w-[150px]">
                 <div class="select-box" style="color: white; padding: 0.5rem; border-radius: 0.3rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
                     <span style="font-weight: 600;" data-tagid="sort_by">Sort By</span>
                     <span><i class="bi bi-caret-down-fill"></i></span>
                 </div>
-                <div class="options-list min-w-[100px] w-auto" style="
+                <div class="options-list min-w-[150px] max-w-[150px] md:max-w-auto w-auto" style="
                         display: none; 
                         position: absolute; 
                         background: rgb(31, 41, 55); 

@@ -11,6 +11,10 @@ function fp_get_option_values($option_name)
         case 'mtg_year':
         case 'mtg_network':
         case 'category':
+        case 'mtg_cast':
+        case 'mtg_crew':
+        case 'mtg_collection':
+        case 'post_tag':
             $terms = get_terms([
                 'taxonomy' => $option_name,
                 'hide_empty' => true,

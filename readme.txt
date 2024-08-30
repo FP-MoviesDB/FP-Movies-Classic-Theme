@@ -22,3 +22,13 @@
 * Added Featured Image Option that was missing.
 * Added Support for Child Theme.
 * Set Post Modified as default sortBy in all posts.
+
+= 1.0.4 =
+* IMPROVE: Enhance Search Queries.
+* ADD: Search Queries will now be cached so to reduce server load.
+* FIX: SubMenu click not opening
+* FIX: Search Page Pagination
+* ADD: Adv Search Page: Each filter self remove option.
+* ADD: Adv Search Page: Added Cast, Crew & Collection.
+* FIX: Adv Search Page: Background color and with for options.
+* FIX: Adv Search Page: Multiple requests on CLEAR FILTER events.
